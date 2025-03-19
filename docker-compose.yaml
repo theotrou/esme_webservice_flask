@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mot_de_passe
+      POSTGRES_DB: esme_inge
+    ports:
+      - "5432:5432"
+
+  flask_app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://myuser:mot_de_passe@db:5432/esme_inge
+    ports:
+      - "5000:5000"
