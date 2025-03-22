@@ -9,8 +9,8 @@
 ### 🏗️ Installation des dépendances
 #### 1️⃣ Cloner le projet
 ```bash
-git clone https://github.com/user/repo.git
-cd flask_app
+git clone git@github.com:esperluet/esme_webservice_flask.git
+cd esme_webservice_flask
 ```
 
 #### 2️⃣ Installer les dépendances Python
