@@ -11,13 +11,21 @@ services:
       POSTGRES_DB: esme_inge
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-  flask_app:
+  flask_app_esme:
     build: .
-    container_name: db_flask_app_esme
+    container_name: flask_app_esme
     depends_on:
       - db_esme
     environment:
       - DATABASE_URL=postgresql://myuser:mot_de_passe@db_esme:5432/esme_inge
     ports:
       - "5009:5000"
+    volumes:
+      - .:/app
+      - ./migrations:/app/migrations  # Persistance des fichiers Alembic
+
+volumes:
+  postgres_data:  # Volume Docker nommé pour la base de données
