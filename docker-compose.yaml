@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  db_esme:
     image: postgres:13
     container_name: db_esme
     restart: always
@@ -16,8 +16,8 @@ services:
     build: .
     container_name: db_flask_app_esme
     depends_on:
-      - db
+      - db_esme
     environment:
-      - DATABASE_URL=postgresql://myuser:mot_de_passe@db:5432/esme_inge
+      - DATABASE_URL=postgresql://myuser:mot_de_passe@db_esme:5432/esme_inge
     ports:
       - "5009:5000"
