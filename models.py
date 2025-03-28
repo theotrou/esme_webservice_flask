@@ -7,7 +7,7 @@ class Book(db.Model):
     title = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(100), nullable=False)
     published_at = db.Column(db.DateTime)
-    borrowers = db.relationship('Student', back_populates = 'borrowed_books', secondary='StudentBook')
+    borrowers = db.relationship('Student', back_populates = 'borrowed_books', secondary='studentbook')
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,9 +15,10 @@ class Student(db.Model):
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
     birth_date = db.Column(db.DateTime)
-    borrowed_books = db.relationship('Book', back_populates = 'borrowed_books', secondary='StudentBook')
+    borrowed_books = db.relationship('Book', back_populates = 'borrowed_books', secondary='studentbook')
 
 class StudentBook(db.Model):
+    __tablename__ = 'studentbook'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey(Student.id), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey(Book.id), nullable=False)
