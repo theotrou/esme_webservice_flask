@@ -2,6 +2,7 @@ from flask import Flask
 from config import Config
 from models import db
 from routes.books import books_bp
+from routes.students import students_bp
 from flask_migrate import Migrate
 
 app = Flask(__name__)
