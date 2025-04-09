@@ -4,7 +4,6 @@ from datetime import datetime
 
 books_bp = Blueprint('books', __name__)
 
-# 🔹 Récupérer tous les livres
 @books_bp.route('/books', methods=['GET'])
 def get_books():
     books = Book.query.all()
@@ -13,12 +12,9 @@ def get_books():
         for b in books
     ])
 
-# 🔹 Récupérer un livre par ID
 @books_bp.route('/books/<int:id>', methods=['GET'])
 def get_book(id):
-    book = Book.query.get(id)
-    if not book:
-        return jsonify({'error': 'Book not found'}), 404
+    book = Book.query.get_or_404(id)
     return jsonify({
         'id': book.id,
         'title': book.title,
@@ -26,7 +22,6 @@ def get_book(id):
         'published_at': book.published_at.strftime('%Y-%m-%d') if book.published_at else None
     })
 
-# 🔹 Ajouter un livre
 @books_bp.route('/books', methods=['POST'])
 def add_book():
     data = request.get_json()
@@ -46,14 +41,11 @@ def add_book():
     db.session.commit()
     return jsonify({'message': 'Book added successfully', 'id': book.id}), 201
 
-# 🔹 Mettre à jour un livre
 @books_bp.route('/books/<int:id>', methods=['PUT'])
 def update_book(id):
-    book = Book.query.get(id)
-    if not book:
-        return jsonify({'error': 'Book not found'}), 404
-
+    book = Book.query.get_or_404(id)
     data = request.get_json()
+
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
@@ -70,13 +62,9 @@ def update_book(id):
     db.session.commit()
     return jsonify({'message': 'Book updated successfully'})
 
-# 🔹 Supprimer un livre
 @books_bp.route('/books/<int:id>', methods=['DELETE'])
 def delete_book(id):
-    book = Book.query.get(id)
-    if not book:
-        return jsonify({'error': 'Book not found'}), 404
-
+    book = Book.query.get_or_404(id)
     db.session.delete(book)
     db.session.commit()
     return jsonify({'message': 'Book deleted successfully'})
